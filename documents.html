@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documents officiels — Statuts et Règlement intérieur | MEDD</title>
+<meta name="description" content="Téléchargez les statuts et le règlement intérieur officiels du MEDD, Mouvement des Enseignants pour la Dynamique de la Dignité.">
+<link rel="canonical" href="https://medd-site.vercel.app/documents.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Documents officiels du MEDD">
+<meta property="og:description" content="Statuts et règlement intérieur du MEDD, téléchargeables au format PDF.">
+<meta property="og:image" content="/assets/images/logo-medd.jpg">
+<link rel="icon" href="/assets/images/logo-medd.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Aller au contenu principal</a>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="/index.html">
+      <img src="/assets/images/logo-medd.jpg" alt="Logo du MEDD : deux mains jointes surmontées du sigle MEDD">
+      <span>
+        <span class="brand-name">MEDD</span>
+        <span class="brand-tagline">Donnons vie à nos droits</span>
+      </span>
+    </a>
+
+    <ul class="nav-links" style="display:none;" id="desktop-nav">
+      <li><a href="/index.html">Accueil</a></li>
+      <li><a href="/le-medd.html">Le MEDD</a></li>
+      <li><a href="/documents.html" aria-current="page">Documents</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <a class="btn btn-primary nav-cta" href="https://medd-app-two.vercel.app" target="_blank" rel="noopener noreferrer">
+      Espace Adhérent ↗
+    </a>
+
+    <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span>
+    </button>
+  </div>
+
+  <nav class="mobile-menu container" id="mobile-menu" aria-label="Menu principal">
+    <a href="/index.html">Accueil</a>
+    <a href="/le-medd.html">Le MEDD</a>
+    <a href="/documents.html" aria-current="page">Documents</a>
+    <a href="/contact.html">Contact</a>
+    <a class="btn btn-primary" href="https://medd-app-two.vercel.app" target="_blank" rel="noopener noreferrer">Espace Adhérent ↗</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section style="padding-bottom:1rem;">
+    <div class="container" style="max-width:760px;">
+      <span class="eyebrow">Documents officiels</span>
+      <h1>Statuts et Règlement intérieur</h1>
+      <p class="lead" style="font-size:1.05rem;">
+        Ces documents constituent le cadre juridique et organisationnel du MEDD.
+        Ils sont mis à disposition dans leur version officielle, sans modification.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="doc-card">
+        <span class="doc-icon" aria-hidden="true">PDF</span>
+        <div>
+          <h3>Statuts et Règlement intérieur du MEDD</h3>
+          <p>
+            Document officiel réunissant les statuts (constitution, objet, organisation,
+            ressources financières) et le règlement intérieur du MEDD (modalités d'application,
+            droits et devoirs des membres, sanctions).
+          </p>
+          <a class="btn btn-primary" href="/assets/docs/MEDD-Statuts-et-Reglement-Interieur.pdf" download>
+            Télécharger le PDF
+          </a>
+        </div>
+      </div>
+
+      <div class="notice" style="margin-top:1.5rem;">
+        <strong>Remarque :</strong> ce document unique couvre à la fois les statuts et le
+        règlement intérieur du MEDD. Si le MEDD souhaite à l'avenir publier d'autres documents
+        (communiqués, procès-verbaux...), cette page est prévue pour en accueillir davantage.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>MEDD</h3>
+      <p style="color:#cfe0ea; font-size:0.9rem; max-width:32ch;">
+        Mouvement des Enseignants pour la Dynamique de la Dignité — « Donnons vie à nos droits ».
+      </p>
+    </div>
+    <div>
+      <h3>Navigation</h3>
+      <ul class="footer-links">
+        <li><a href="/index.html">Accueil</a></li>
+        <li><a href="/le-medd.html">Le MEDD</a></li>
+        <li><a href="/documents.html">Documents</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Application</h3>
+      <ul class="footer-links">
+        <li><a href="https://medd-app-two.vercel.app" target="_blank" rel="noopener noreferrer">Espace Adhérent ↗</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© <span id="year"></span> MEDD — Tous droits réservés.</span>
+    <span>Siège social : Dabou, Côte d'Ivoire</span>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="/assets/js/main.js"></script>
+<style>@media (min-width:860px){#desktop-nav{display:flex !important;}}</style>
+</body>
+</html>
