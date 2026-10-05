@@ -22,41 +22,42 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ---------- Lightbox : agrandissement des images des cartes actualités ----------
-  var galleryImages = document.querySelectorAll(".news-card img");
-  if (galleryImages.length === 0) return;
+  // Délégation d'événement : fonctionne aussi pour les cartes affichées après le
+  // chargement de la page (actualités lues depuis content/actualites.json).
+  // La fenêtre d'agrandissement n'est créée qu'au premier clic sur une image.
+  var overlay = null;
+  var lightboxImg = null;
 
-  var overlay = document.createElement("div");
-  overlay.className = "lightbox-overlay";
-  overlay.setAttribute("role", "dialog");
-  overlay.setAttribute("aria-label", "Image agrandie");
-  overlay.innerHTML =
-    '<button type="button" class="lightbox-close" aria-label="Fermer">&times;</button>' +
-    '<img class="lightbox-img" src="" alt="">';
-  document.body.appendChild(overlay);
-
-  var lightboxImg = overlay.querySelector(".lightbox-img");
-  var closeBtn = overlay.querySelector(".lightbox-close");
+  function closeLightbox() {
+    if (!overlay) return;
+    overlay.classList.remove("is-open");
+    lightboxImg.src = "";
+  }
 
   function openLightbox(img) {
+    if (!overlay) {
+      overlay = document.createElement("div");
+      overlay.className = "lightbox-overlay";
+      overlay.setAttribute("role", "dialog");
+      overlay.setAttribute("aria-label", "Image agrandie");
+      overlay.innerHTML =
+        '<button type="button" class="lightbox-close" aria-label="Fermer">&times;</button>' +
+        '<img class="lightbox-img" src="" alt="">';
+      document.body.appendChild(overlay);
+      lightboxImg = overlay.querySelector(".lightbox-img");
+      // Un clic n'importe où sur la fenêtre (y compris le bouton ×) la ferme
+      overlay.addEventListener("click", closeLightbox);
+    }
     lightboxImg.src = img.src;
     lightboxImg.alt = img.alt || "";
     overlay.classList.add("is-open");
   }
 
-  function closeLightbox() {
-    overlay.classList.remove("is-open");
-    lightboxImg.src = "";
-  }
-
-  galleryImages.forEach(function (img) {
-    img.style.cursor = "zoom-in";
-    img.addEventListener("click", function () {
-      openLightbox(img);
-    });
+  document.addEventListener("click", function (e) {
+    var img = e.target.closest ? e.target.closest(".news-card img") : null;
+    if (img) openLightbox(img);
   });
 
-  overlay.addEventListener("click", closeLightbox);
-  closeBtn.addEventListener("click", closeLightbox);
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") closeLightbox();
   });

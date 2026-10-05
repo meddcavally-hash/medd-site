@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://medd-site.vercel.app/index.html</loc>
+    <loc>https://www.medd.ci/index.html</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://medd-site.vercel.app/le-medd.html</loc>
+    <loc>https://www.medd.ci/le-medd.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://medd-site.vercel.app/organisation.html</loc>
+    <loc>https://www.medd.ci/organisation.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://medd-site.vercel.app/revendications.html</loc>
+    <loc>https://www.medd.ci/revendications.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://medd-site.vercel.app/actualites.html</loc>
+    <loc>https://www.medd.ci/actualites.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://medd-site.vercel.app/documents.html</loc>
+    <loc>https://www.medd.ci/documents.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://medd-site.vercel.app/contact.html</loc>
+    <loc>https://www.medd.ci/contact.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
