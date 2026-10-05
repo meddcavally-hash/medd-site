@@ -1,0 +1,63 @@
+# Configuration Pages CMS (https://pagescms.org) — site du MEDD
+# Les collaborateurs invités par e-mail ne voient et ne modifient QUE ce qui est défini ici :
+# la liste des actualités et le dossier de photos des actualités.
+
+settings:
+  commit:
+    # Inscrit le nom et l'e-mail de la personne qui modifie dans l'historique GitHub
+    identity: user
+
+media:
+  input: assets/images/actualites
+  output: /assets/images/actualites
+  rename: safe
+  extensions: [jpg, jpeg, png, webp]
+
+content:
+  - name: actualites
+    label: Actualités
+    type: file
+    path: content/actualites.json
+    format: json
+    list: true
+    fields:
+      - name: titre
+        label: Titre
+        type: string
+        required: true
+      - name: date
+        label: Date de publication (la plus récente s'affiche en premier)
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: mention
+        label: Mention affichée au-dessus du titre (ex. « 3 octobre 2026 · Bouaké ») — facultatif, sinon la date de publication s'affiche
+        type: string
+      - name: image
+        label: Affiche ou image principale (format vertical) — facultatif
+        type: image
+      - name: image_alt
+        label: Description de l'image principale (pour les malvoyants)
+        type: string
+      - name: texte
+        label: "Texte — ligne vide = nouveau paragraphe ; ligne commençant par « - » = puce ; **mot** = gras"
+        type: text
+      - name: signature
+        label: Signature (ex. « Le Secrétariat à la Communication du MEDD ») — facultatif
+        type: string
+      - name: galerie
+        label: Galerie de photos — facultatif
+        type: object
+        list:
+          collapsible: true
+        fields:
+          - name: image
+            label: Photo
+            type: image
+          - name: description
+            label: Description de la photo
+            type: string
+          - name: en_avant
+            label: Mettre en avant (photo agrandie)
+            type: boolean
