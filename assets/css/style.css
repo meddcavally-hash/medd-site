@@ -920,3 +920,16 @@ section { padding: 3rem 0; }
   font-size: 0.95rem;
   line-height: 1.55;
 }
+
+.roster-tel { display: block; margin-top: 0.15rem; font-size: 0.85rem; }
+.roster-tel a { color: var(--color-red); font-weight: 600; text-decoration: none; white-space: nowrap; }
+.roster-tel a::before { content: "\260E\00a0"; }
+/* ---------- Organisation : IEPP par DRENA (liste repliable) ---------- */
+.iepp-groups { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.iepp-group { border: 1px solid var(--color-border); border-radius: 8px; padding: 0 1rem; background: #fff; }
+.iepp-group summary { cursor: pointer; padding: 0.8rem 0; font-weight: 600; font-size: 0.95rem; list-style: none; display: flex; justify-content: space-between; gap: 0.6rem; align-items: center; }
+.iepp-group summary::-webkit-details-marker { display: none; }
+.iepp-group summary::after { content: "+"; font-weight: 700; color: var(--color-red); }
+.iepp-group[open] summary::after { content: "−"; }
+.iepp-group .roster-list { margin: 0 0 1rem; padding-top: 0.2rem; }
+.iepp-count { margin-left: auto; font-size: 0.78rem; font-weight: 600; color: var(--color-ink-soft); }
