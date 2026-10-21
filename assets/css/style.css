@@ -924,6 +924,8 @@ section { padding: 3rem 0; }
 .roster-tel { display: block; margin-top: 0.15rem; font-size: 0.85rem; }
 .roster-tel a { color: var(--color-red); font-weight: 600; text-decoration: none; white-space: nowrap; }
 .roster-tel a::before { content: "\260E\00a0"; }
+.roster-tel a.roster-wa { margin-left: 0.5rem; margin-right: 0.3rem; color: #1a7f45; }
+.roster-tel a.roster-wa::before { content: "\1F4AC\00a0"; }
 /* ---------- Organisation : IEPP par DRENA (liste repliable) ---------- */
 .iepp-groups { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
 .iepp-group { border: 1px solid var(--color-border); border-radius: 8px; padding: 0 1rem; background: #fff; }
