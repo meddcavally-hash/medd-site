@@ -935,3 +935,12 @@ section { padding: 3rem 0; }
 .iepp-group[open] summary::after { content: "−"; }
 .iepp-group .roster-list { margin: 0 0 1rem; padding-top: 0.2rem; }
 .iepp-count { margin-left: auto; font-size: 0.78rem; font-weight: 600; color: var(--color-ink-soft); }
+
+/* Page Guide d'utilisation */
+.guide h2 { margin-top: 2.2rem; scroll-margin-top: 5rem; }
+.guide h3 { margin-top: 1.6rem; }
+.guide table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 1rem 0; display: block; overflow-x: auto; }
+.guide th, .guide td { border: 1px solid var(--color-border, #d9dee3); padding: 0.5rem 0.6rem; text-align: left; vertical-align: top; }
+.guide th { background: #eef3f7; }
+.guide ol, .guide ul { padding-left: 1.3rem; }
+.guide li { margin-bottom: 0.4rem; }
