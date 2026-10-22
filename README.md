@@ -2,13 +2,18 @@
 
 Site vitrine institutionnel du **Mouvement des Enseignants pour la Dynamique de la Dignité (MEDD)**.
 
-⚠️ Ce projet est **totalement indépendant** de l'application MEDD (`Medd-app`) : aucun code,
-aucune clé, aucune donnée n'est partagée entre les deux dépôts.
+⚠️ Ce projet est indépendant de l'application MEDD (`Medd-app`) : aucun code n'est partagé entre
+les deux dépôts. **Une seule exception, volontaire** : la page `organisation.html` lit la liste publique
+des Secrétaires Généraux (régionaux, lycées et collèges, CAFOP, IEPP) dans le registre des responsables
+de l'application, via la fonction Supabase `responsables_publics()` (responsables actifs uniquement,
+sans matricule), avec la clé publique (anon) du projet. Le script est `assets/js/organisation.js`.
+Les listes écrites en dur dans `organisation.html` restent la liste de secours : elles s'affichent si la
+lecture échoue ou renvoie une liste vide, et sont rafraîchies à la demande depuis le registre.
 
 ## Stack
 
 - HTML / CSS / JS vanilla — pas de framework, pas de dépendance de build.
-- Aucun backend : site 100% statique.
+- Aucun backend propre : site statique ; seule la page Organisation lit une fonction publique Supabase (voir ci-dessus).
 - Déploiement : Vercel (déploiement continu depuis GitHub).
 
 ## Structure
@@ -22,6 +27,7 @@ medd-site/
 ├── assets/
 │   ├── css/style.css
 │   ├── js/main.js         (menu mobile uniquement)
+│   ├── js/organisation.js (listes des SG lues dans le registre — page Organisation)
 │   ├── images/logo-medd.jpg
 │   └── docs/MEDD-Statuts-et-Reglement-Interieur.pdf
 ├── sitemap.xml
