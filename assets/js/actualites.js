@@ -1,6 +1,10 @@
 // MEDD — page Actualités
-// Lit content/actualites.json (modifiable via Pages CMS) et affiche les cartes
-// avec exactement les mêmes balises et classes CSS que la version écrite en dur.
+// Affiche, mélangées par date (la plus récente en premier) :
+//  1. les actualités publiées depuis l'espace Communication de l'application MEDD
+//     (lecture seule, clé publique, uniquement celles au statut « publiée ») ;
+//  2. les actualités de content/actualites.json (modifiable via Pages CMS).
+// Si la lecture de l'application échoue, la page affiche seulement le fichier JSON.
+// Mêmes balises et mêmes classes CSS que la version écrite en dur.
 // Sécurité : aucun innerHTML — tout le texte saisi est inséré comme texte brut.
 // Mise en forme autorisée dans "texte" : ligne vide = nouveau paragraphe,
 // ligne commençant par "- " = puce, **texte** = gras, retour à la ligne simple = saut de ligne.
@@ -18,10 +22,25 @@
     return typeof v === "string" ? v.trim() : "";
   }
 
+  var SB = "https://ekibvnhohngfxzorzqgt.supabase.co";
+  // Clé publique (anon) du projet : conçue pour être visible côté navigateur.
+  var KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVraWJ2bmhvaG5nZnh6b3J6cWd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwODg4MDQsImV4cCI6MjA5NTY2NDgwNH0.QITDFpA20wrh5A6mQpEbI-PB_ZiYUSJ3dYlvy0xPtdY";
+  var PHOTOS_PREFIX = SB + "/storage/v1/object/public/actualites/";
+
   // N'accepte que des chemins internes au site (ex. /assets/images/actualites/photo.jpg)
+  // ou une photo du dossier public « actualites » de l'application.
   function safeSrc(v) {
     var s = str(v);
-    return /^\/[^\/]/.test(s) && !/[\s"'<>]/.test(s) ? s : "";
+    if (/[\s"'<>]/.test(s)) return "";
+    if (/^\/[^\/]/.test(s)) return s;
+    if (s.indexOf(PHOTOS_PREFIX) === 0 && /^[A-Za-z0-9._\/-]+$/.test(s.slice(PHOTOS_PREFIX.length))) return s;
+    return "";
+  }
+
+  // Identifiant YouTube valide (11 caractères) ou chaîne vide
+  function ytId(v) {
+    var s = str(v);
+    return /^[A-Za-z0-9_-]{11}$/.test(s) ? s : "";
   }
 
   function dateFr(iso) {
@@ -141,7 +160,68 @@
       });
       art.appendChild(grid);
     }
+
+    var videos = Array.isArray(it.videos) ? it.videos.map(ytId).filter(Boolean) : [];
+    if (videos.length) {
+      var vwrap = el("div", "news-videos");
+      videos.forEach(function (id) {
+        var box = el("div", "news-video");
+        var fr = el("iframe");
+        fr.src = "https://www.youtube-nocookie.com/embed/" + id;
+        fr.title = "Vidéo : " + titre;
+        fr.loading = "lazy";
+        fr.setAttribute("allow", "accelerometer; encrypted-media; gyroscope; picture-in-picture");
+        fr.setAttribute("allowfullscreen", "");
+        fr.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+        box.appendChild(fr);
+        vwrap.appendChild(box);
+        var lien = el("a", "news-video-link");
+        lien.href = "https://www.youtube.com/watch?v=" + id;
+        lien.target = "_blank";
+        lien.rel = "noopener noreferrer";
+        lien.textContent = "Voir la vidéo sur YouTube ↗";
+        vwrap.appendChild(lien);
+      });
+      art.appendChild(vwrap);
+    }
     return art;
+  }
+
+  // Convertit une actualité de l'application en entrée au format du fichier JSON
+  function depuisApp(a) {
+    a = a || {};
+    var ph = (Array.isArray(a.photos) ? a.photos : []).map(function (p) {
+      return p && safeSrc(p.url) ? safeSrc(p.url) : "";
+    }).filter(Boolean);
+    var it = {
+      titre: a.titre, date: a.date_pub, texte: a.contenu,
+      image: "", image_alt: "", signature: "", galerie: [],
+      videos: (Array.isArray(a.videos) ? a.videos : []).map(function (v) { return v && v.id; })
+    };
+    if (ph.length === 1) { it.image = ph[0]; }
+    else { it.galerie = ph.map(function (u) { return { image: u }; }); }
+    return it;
+  }
+
+  function chargerApp() {
+    var url = SB + "/rest/v1/actualites?select=id,titre,contenu,date_pub,photos,videos"
+      + "&statut=eq.publiee&order=date_pub.desc,id.desc&limit=100";
+    return fetch(url, { headers: { "apikey": KEY, "Authorization": "Bearer " + KEY } })
+      .then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function (d) { return Array.isArray(d) ? d.map(depuisApp) : []; })
+      .catch(function () { return []; });
+  }
+
+  function chargerJson() {
+    return fetch("/content/actualites.json", { cache: "no-cache" })
+      .then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function (d) { if (!Array.isArray(d)) throw new Error("format inattendu"); return d; });
   }
 
   function showMessage(text) {
@@ -151,14 +231,12 @@
     list.appendChild(p);
   }
 
-  fetch("/content/actualites.json", { cache: "no-cache" })
-    .then(function (r) {
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      return r.json();
-    })
-    .then(function (data) {
-      if (!Array.isArray(data)) throw new Error("format inattendu");
-      // Plus récente en premier ; à date égale, l'ordre du fichier est conservé (tri stable)
+  Promise.all([chargerApp(), chargerJson().catch(function () { return null; })])
+    .then(function (res) {
+      var app = res[0], json = res[1];
+      if (json === null && !app.length) throw new Error("rien à afficher");
+      var data = app.concat(json || []);
+      // Plus récente en premier ; à date égale, l'ordre est conservé (tri stable)
       var items = data.map(function (it, i) { return { it: it || {}, i: i }; });
       items.sort(function (a, b) {
         var da = str(a.it.date), db = str(b.it.date);

@@ -3,7 +3,10 @@
 Site vitrine institutionnel du **Mouvement des Enseignants pour la Dynamique de la Dignité (MEDD)**.
 
 ⚠️ Ce projet est indépendant de l'application MEDD (`Medd-app`) : aucun code n'est partagé entre
-les deux dépôts. **Une seule exception, volontaire** : la page `organisation.html` lit la liste publique
+les deux dépôts. **Deux exceptions, volontaires** : (1) la page `actualites.html` lit aussi les actualités
+publiées depuis l'espace Communication de l'application (table `actualites`, statut « publiée », lecture
+seule, clé publique) et les mélange avec `content/actualites.json`, qui reste la source des anciennes
+actualités et le secours si la lecture échoue (script `assets/js/actualites.js`) ; (2) la page `organisation.html` lit la liste publique
 des Secrétaires Généraux (régionaux, lycées et collèges, CAFOP, IEPP) dans le registre des responsables
 de l'application, via la fonction Supabase `responsables_publics()` (responsables actifs uniquement,
 sans matricule), avec la clé publique (anon) du projet. Le script est `assets/js/organisation.js`.
