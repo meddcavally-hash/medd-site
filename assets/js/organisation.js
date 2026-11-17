@@ -86,16 +86,21 @@
   }
 
   function renderIepp(box, rows) {
-    var order = [], groups = {};
+    // Regroupement par région de rattachement (évite les doublons dus à la saisie libre) ;
+    // le libellé affiché est le premier libellé « DRENA … » rencontré pour cette région.
+    var order = [], groups = {}, labels = {};
     rows.forEach(function (r) {
-      var g = str(r.groupe) || "Autres";
-      if (!groups[g]) { groups[g] = []; order.push(g); }
-      groups[g].push(r);
+      var k = str(r.region_ref) || str(r.groupe) || "Autres";
+      if (!groups[k]) { groups[k] = []; order.push(k); labels[k] = ""; }
+      var gl = str(r.groupe);
+      if (gl && (!labels[k] || (gl.indexOf("DRENA") === 0 && labels[k].indexOf("DRENA") !== 0))) labels[k] = gl;
+      groups[k].push(r);
     });
+    order.forEach(function (k) { if (!labels[k]) labels[k] = /^Autres$/.test(k) ? k : "DRENA " + k; });
     while (box.firstChild) box.removeChild(box.firstChild);
     order.forEach(function (g) {
       var d = el("details", "iepp-group");
-      var s = el("summary", "", g + " ");
+      var s = el("summary", "", labels[g] + " ");
       s.appendChild(el("span", "iepp-count", String(groups[g].length)));
       d.appendChild(s);
       var ul = el("ul", "roster-list");
